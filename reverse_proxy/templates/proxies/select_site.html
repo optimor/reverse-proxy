@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %} {% load i18n %}
+{% block content %}
+  <form enctype="multipart/form-data" action="" method="post" id="proxysite_form" novalidate="">{% csrf_token %}
+    <div>
+      <fieldset class="module aligned  module_0 initialized">
+        <h1>Select current proxy site</h1>
+        <p>After selecting proxy site you will be redirected to the site every time you visit root (`/`) url. To change currently selected website visit <a href="{% url 'admin:index' %}">{% trans 'Dashboard' %}</a> by pasting it url into the browser address bar.</p>
+        {% if form.fields|length_is:'1' %}{{ form.non_field_errors }}{% endif %}
+        {% for field in form %}
+          <div class="form-row{% if form.fields|length_is:'1' and form.errors %} errors{% endif %}{% for field in form %}{% if field.name %} field-{{ field.name }}{% endif %}{% endfor %}">
+            <div{% if not form.fields|length_is:'1' %} class="field-box{% if field.name %} field-{{ field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}{% if field.is_hidden %} hidden{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
+              {{ field.errors }}
+              {% if field.is_checkbox %}
+                  {{ field }}{{ field.label_tag }}
+              {% else %}
+                  {{ field.label_tag }}
+                  {% if field.is_readonly %}
+                      <div class="readonly">{{ field.contents }}</div>
+                  {% else %}
+                      {{ field }}
+                  {% endif %}
+              {% endif %}
+              {% if field.help_text %}
+                  <div class="help">{{ field.help_text|safe }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </fieldset>
+      <div class="submit-row">
+        <input type="submit" value="Save and navigate to site" class="default">
+      </div>
+    </div>
+  </form>
+  <br class="clear">
+
+{% endblock %}

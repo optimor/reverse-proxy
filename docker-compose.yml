@@ -1,0 +1,32 @@
+server-dev:
+  build: .
+  dockerfile: ./Dockerfile
+  hostname: docker-container
+  user: root
+  volumes:
+    - ./reverse_proxy:/src
+  ports:
+    - "8000:8000"
+  environment:
+    ADMIN_USERNAME: admin
+    ADMIN_PASSWORD: admin
+    ADMIN_EMAIL: admin@exmaple.com
+
+server-nginx:
+  build: .
+  dockerfile: ./Dockerfile
+  hostname: docker-container
+  user: root
+  ports:
+    - "8000:80"
+  environment:
+    ENVIRONMENT: production
+    SECRET_KEY: '2tcw0lbppjms#1+wm5!bof)w*ba(9h+20%xtu0&8jh+r!2@xq('
+    ADMIN_USERNAME: 'superuser'
+    ADMIN_PASSWORD: 'superuser'
+    ADMIN_EMAIL: 'superuser@example.com'
+    EMAIL_HOST: 'mail.net'
+    EMAIL_HOST_USER: 'mail_user'
+    EMAIL_HOST_PASSWORD: 'mail_password'
+    EMAIL_PORT: 587
+    EMAIL_USE_TLS: 'true'
