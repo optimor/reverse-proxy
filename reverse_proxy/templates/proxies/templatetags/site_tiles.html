@@ -1,0 +1,25 @@
+{% load admin_urls staticfiles %}
+
+<div class="wrap">
+  {% for proxy in proxy_sites_qs %}
+    <div class="box">
+      <a href="{% url "quick_select_site" proxy.name %}">
+        <div class="box-inner">
+          {% static "/img/no-thumbnail.png" as default_thumbnail  %}
+          <img src="{{ proxy.thumbnail.url|default:default_thumbnail }}" />
+          <div class="title-box">{{ proxy.name }}</div>
+        </div>
+      </a>
+    </div>
+  {% empty %}
+    <div id="content-empty-proxies" class="empty-proxies module">
+      <table>
+        <tbody>
+          <tr>
+            <th scope="row">No proxy sites added yet. Add one <a href="{% url "admin:proxies_proxysite_add" %}">here</a>.</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  {% endfor %}
+</div>

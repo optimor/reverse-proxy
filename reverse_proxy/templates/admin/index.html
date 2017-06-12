@@ -1,0 +1,22 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+{% load proxies_site_tiles %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/reverse-proxy-admin-index.css" %}">
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block coltype %}colML{% endblock %}
+
+{% block content %}
+  <div>
+    <h1>Proxy sites quick pick</h1>
+    {% site_tiles %}
+    <hr>
+  </div>
+  {{ block.super }}
+{% endblock %}
