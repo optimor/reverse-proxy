@@ -22,6 +22,9 @@ server-nginx:
   environment:
     ENVIRONMENT: production
     SECRET_KEY: '2tcw0lbppjms#1+wm5!bof)w*ba(9h+20%xtu0&8jh+r!2@xq('
+    SESSION_COOKIE_DOMAIN: 'None'
+    SESSION_COOKIE_NAME: None
+    SESSION_COOKIE_SECURE: null
     ADMIN_USERNAME: 'superuser'
     ADMIN_PASSWORD: 'superuser'
     ADMIN_EMAIL: 'superuser@example.com'

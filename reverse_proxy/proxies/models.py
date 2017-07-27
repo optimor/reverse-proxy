@@ -5,6 +5,12 @@ class ProxySite(models.Model):
     name = models.SlugField(
         max_length=200, unique=True,
         help_text='Human friendly name to identify proxy settings.')
+    subdomain_name = models.SlugField(
+        max_length=200, unique=True, blank=True, null=True,
+        help_text='Subdomain that this proxy depends on.')
+    subdomain_full_url = models.URLField(
+        blank=True, null=True,
+        help_text='Full URL this proxy should redirect to.')
     thumbnail = models.ImageField(
         upload_to='%Y%m%d%H%M', blank=True, null=True,
         help_text='Proxied site thumbnail to display in dashboard. Thumbnail '

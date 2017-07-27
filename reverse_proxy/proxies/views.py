@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from revproxy.views import ProxyView
@@ -24,8 +25,12 @@ class SelectSiteView(View):
     def post(self, request, *args, **kwargs):
         form = self.form(request.POST)
         if form.is_valid():
-            request.session['current_site'] = (
-                form.cleaned_data['proxy_site'].name)
+            proxy_site = form.cleaned_data['proxy_site']
+            request.session['current_site'] = proxy_site.name
+            request.session['current_site_full_url'] = (
+                proxy_site.subdomain_full_url)
+            if proxy_site.subdomain_full_url:
+                return HttpResponseRedirect(proxy_site.subdomain_full_url)
             return HttpResponseRedirect('/')
         ctx = {
             'form': form
@@ -38,6 +43,9 @@ class QuickSelectSiteView(View):
     def get(self, request, site_name, *args, **kwargs):
         proxy = get_object_or_404(ProxySite, name=site_name)
         request.session['current_site'] = proxy.name
+        request.session['current_site_full_url'] = proxy.subdomain_full_url
+        if proxy.subdomain_full_url:
+            return HttpResponseRedirect(proxy.subdomain_full_url)
         return HttpResponseRedirect('/')
 
 
@@ -49,14 +57,37 @@ class CustomProxyView(ProxyView):
             headers[proxy_header.header_name] = proxy_header.header_value
         return headers
 
-    def dispatch(self, request, path, *args, **kwargs):
-        if 'current_site' not in request.session:
-            return HttpResponseRedirect(reverse('select_site'))
+    def get_request_subdomain(self, request):
+        domain = request.META['HTTP_HOST']
+        pieces = domain.split('.')
+        try:
+            subdomain = pieces[0]
+        except IndexError:
+            # No subdomain available
+            subdomain = None
 
+        return subdomain
+
+    def dispatch(self, request, path, *args, **kwargs):
         proxy_site_qs = ProxySite.objects.all().prefetch_related(
             'proxyrewrite_set', 'proxyheader_set')
-        self.proxy = get_object_or_404(
-            proxy_site_qs, name=request.session['current_site'])
+
+        proxy_found = False
+        subdomain = self.get_request_subdomain(request)
+        if subdomain is not None:
+            try:
+                self.proxy = proxy_site_qs.get(subdomain_name=subdomain)
+                proxy_found = True
+            except ObjectDoesNotExist:
+                # No proxy sites found for this subdomain
+                pass
+
+        if not proxy_found:
+            if 'current_site' not in request.session:
+                return HttpResponseRedirect(reverse('select_site'))
+            else:
+                self.proxy = proxy_site_qs.get(
+                    name=request.session['current_site'])
 
         self.upstream = self.proxy.upstream
         self.add_remote_user = self.proxy.add_remote_user
