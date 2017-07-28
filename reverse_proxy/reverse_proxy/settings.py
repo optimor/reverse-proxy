@@ -29,6 +29,9 @@ DEBUG = os.environ.get('ENVIRONMENT') != 'production'
 ALLOWED_HOSTS = ['*']
 
 SESSION_COOKIE_AGE = 86400  # 24 hours (in seconds)
+SESSION_COOKIE_DOMAIN = os.environ.get('SESSION_COOKIE_DOMAIN', None)
+SESSION_COOKIE_NAME = os.environ.get('SESSION_COOKIE_NAME', 'sessionid')
+SESSION_COOKIE_SECURE = bool(os.environ.get('SESSION_COOKIE_SECURE', False))
 
 
 # Application definition

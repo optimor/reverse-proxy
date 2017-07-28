@@ -2,6 +2,7 @@ from django.contrib import admin
 from jet.admin import CompactInline
 
 from .models import ProxySite, ProxyRewrite, ProxyHeader
+from .forms import ProxySiteForm
 
 
 class ProxyRewriteInline(CompactInline):
@@ -35,7 +36,22 @@ class ProxyHeaderInline(CompactInline):
 
 
 @admin.register(ProxySite)
-class AuthorProxy(admin.ModelAdmin):
-    list_display = ('name', 'upstream', 'add_remote_user',
-                    'default_content_type', 'retries')
+class ProxySiteAdmin(admin.ModelAdmin):
+    list_display = ('name', 'upstream', 'subdomain_name', 'subdomain_full_url',
+                    'add_remote_user', 'default_content_type', 'retries')
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'upstream', 'thumbnail'),
+        }),
+        ('Subdomain', {
+            'fields': ('subdomain_name', 'subdomain_full_url'),
+            'description':
+                'Specify those to setup proxy that redirects based on the '
+                'subdomain of the current URL'
+        }),
+        ('Extra', {
+            'fields': ('add_remote_user', 'default_content_type', 'retries')
+        }),
+    )
+    form = ProxySiteForm
     inlines = (ProxyRewriteInline, ProxyHeaderInline)
