@@ -22,6 +22,8 @@ ENV LANG en_GB.UTF-8
 ENV LC_ALL en_GB.UTF-8
 ENV ENVIRONMENT development
 ENV BACKEND_DIR /src
+ENV LOG_DIR /var/log/optimor/reverse_proxy
+ENV LOG_FILE_DJANGO $LOG_DIR/app_django.log
 
 RUN /bin/bash -c "ln -s $(which python3) /usr/bin/python" && \
     /bin/bash -c "mkdir -p $BACKEND_DIR" && \
@@ -33,6 +35,9 @@ RUN /bin/bash -c "pip3 install -r $BACKEND_DIR/requirements.txt"
 
 COPY ./reverse_proxy $BACKEND_DIR
 RUN /bin/bash -c "chown -R django:django $BACKEND_DIR"
+
+RUN mkdir -p $LOG_DIR
+RUN chown -R django:django $LOG_DIR
 
 COPY ./entrypoint.sh /entrypoint.sh
 
