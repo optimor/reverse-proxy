@@ -22,7 +22,7 @@ if [[ "$ENVIRONMENT" = "production" ]]; then
   service nginx restart
 
   # Setup and run uwsgi
-  mkdir /var/log/uwsgi
+  mkdir -p /var/log/uwsgi
   chown -R django:django /var/log/uwsgi
   uwsgi --ini $BACKEND_DIR/uwsgi.ini
 
