@@ -115,6 +115,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+django_log_path = os.environ.get('LOG_FILE_DJANGO', '/var/log/app_django.log')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': django_log_path,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
