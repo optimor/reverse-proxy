@@ -1,4 +1,4 @@
-django==1.11.21
+django==1.11.23
 django-revproxy==0.9.13
 django-jet==1.0.6
 Pillow==4.1.1
