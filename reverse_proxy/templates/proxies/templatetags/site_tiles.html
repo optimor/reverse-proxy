@@ -5,8 +5,11 @@
     <div class="box">
       <a href="{% url "quick_select_site" proxy.name %}">
         <div class="box-inner">
-          {% static "/img/no-thumbnail.png" as default_thumbnail  %}
-          <img src="{{ proxy.thumbnail.url|default:default_thumbnail }}" />
+          {% if proxy.thumbnail %}
+            <img src="{{ proxy.thumbnail.url }}" />
+          {% else %}
+            <img src="{% static '/img/no-thumbnail.png' %}" />
+          {% endif %}
           <div class="title-box">{{ proxy.name }}</div>
         </div>
       </a>
