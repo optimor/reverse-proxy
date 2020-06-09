@@ -1,0 +1,5 @@
+django
+django-jet
+django-revproxy
+Pillow
+uwsgi
