@@ -68,4 +68,4 @@ pip-compile-upgrade-requirements:
     service: pip-compile
   command: >
     bash --login -c "
-            pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file /src/requirements.txt /src/requirements.in"
+            pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file requirements.txt requirements.in"

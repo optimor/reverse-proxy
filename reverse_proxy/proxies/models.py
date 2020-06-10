@@ -38,7 +38,7 @@ class ProxySite(models.Model):
 
 
 class ProxyRewrite(models.Model):
-    proxy_site = models.ForeignKey(ProxySite)
+    proxy_site = models.ForeignKey(ProxySite, on_delete=models.CASCADE)
     from_regex = models.CharField(max_length=255)
     to_regex = models.CharField(max_length=255)
 
@@ -47,7 +47,7 @@ class ProxyRewrite(models.Model):
 
 
 class ProxyHeader(models.Model):
-    proxy_site = models.ForeignKey(ProxySite)
+    proxy_site = models.ForeignKey(ProxySite, on_delete=models.CASCADE)
     header_name = models.CharField(max_length=255)
     header_value = models.CharField(max_length=255)
 
