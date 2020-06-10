@@ -1,6 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
-MAINTAINER Marcin Kawa kawa.macin@gmail.com
+# Enable non interactive mode to prevent any custom console questions asked
+# during the packages installation
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get clean && \
     apt-get update && \
@@ -46,12 +48,14 @@ RUN python3 -m virtualenv --python=python3 $VIRTUAL_ENV_DIR && \
     echo "PATH=$VIRTUAL_ENV_DIR/bin:$PATH" >> /home/django/.bashrc && \
     # Replace the default PATH value for 'su' usage. See more in the man page:
     # http://manpages.ubuntu.com/manpages/eoan/man1/su.1.html#config%20files
-    sed -i "/^ENV_SUPATH/c\ENV_SUPATH    $PATH" /etc/login.defs && \
-    sed -i "/^ENV_PATH/c\ENV_PATH      $PATH" /etc/login.defs
+    sed -i "/^ENV_SUPATH/c\ENV_SUPATH    PATH=$PATH" /etc/login.defs && \
+    sed -i "/^ENV_PATH/c\ENV_PATH      PATH=$PATH" /etc/login.defs && \
+    # Replace the environment PATH for new su implementation (Ubuntu 20 up)
+    sed -i "/^PATH/c\EPATH=\"$PATH\"" /etc/environment
 RUN pip3 install pip-tools wheel
 
 COPY ./requirements.txt $BACKEND_DIR/requirements.txt
-RUN /bin/bash -c "pip3 install -r $BACKEND_DIR/requirements.txt"
+RUN pip-sync $BACKEND_DIR/requirements.txt
 
 COPY ./reverse_proxy $BACKEND_DIR
 RUN /bin/bash -c "chown -R django:django $BACKEND_DIR"
