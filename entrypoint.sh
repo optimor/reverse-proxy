@@ -6,10 +6,10 @@ mkdir -p $BACKEND_DIR/data/media
 chown -R django:django $BACKEND_DIR/data
 
 # Run migrations if any
-su django -c "$BACKEND_DIR/manage.py migrate --noinput"
+su django -pc "$BACKEND_DIR/manage.py migrate --noinput"
 
 # Create superuser if not created before
-su django -c "$BACKEND_DIR/manage.py initadmin"
+su django -pc "$BACKEND_DIR/manage.py initadmin"
 
 if [[ "$ENVIRONMENT" = "production" ]]; then
   # Setup and run Nginx
@@ -27,7 +27,7 @@ if [[ "$ENVIRONMENT" = "production" ]]; then
   uwsgi --ini $BACKEND_DIR/uwsgi.ini
 
   # Collect static files
-  su django -c "$BACKEND_DIR/manage.py collectstatic --noinput"
+  su django -pc "$BACKEND_DIR/manage.py collectstatic --noinput"
 fi
 
 eval "$@"

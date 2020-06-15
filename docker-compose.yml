@@ -33,3 +33,39 @@ server-nginx:
     EMAIL_HOST_PASSWORD: 'mail_password'
     EMAIL_PORT: 587
     EMAIL_USE_TLS: 'true'
+
+
+# =============================================================================
+# ---------------------------- PIP-COMPILE SERVICES ---------------------------
+# Pip-tools are used to manage packages in reverse_proxy project. Services
+# defined below are used to simplify the automatic package management.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 'pip-compile' service is used to add new packages listed in requirements.in
+#
+# Usage:
+#   docker-compose run --rm pip-compile
+# -----------------------------------------------------------------------------
+pip-compile:
+  build: .
+  volumes:
+    - .:/src
+  entrypoint: []
+  user: django
+  command: >
+    bash --login -c "pip-compile --output-file requirements.txt requirements.in"
+# -----------------------------------------------------------------------------
+# 'pip-compile-upgrade-requirements' service is used to upgrade packages
+# located in requirements '.in' files. Note that when upgrading package all
+# files must be recompiled to keep the packages versions in sync.
+#
+# Usage:
+#   UPGRADE_PACKAGE=<package_name> docker-compose run --rm pip-compile-upgrade-requirements
+# -----------------------------------------------------------------------------
+pip-compile-upgrade-requirements:
+  extends:
+    service: pip-compile
+  command: >
+    bash --login -c "
+            pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file requirements.txt requirements.in"
