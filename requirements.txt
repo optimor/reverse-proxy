@@ -10,5 +10,5 @@ django==2.2.13            # via -r requirements.in, django-jet, django-revproxy
 pillow==6.2.2             # via -r requirements.in
 pytz==2020.1              # via django
 sqlparse==0.3.1           # via django
-urllib3==1.16             # via django-revproxy
+urllib3==1.24.2           # via django-revproxy
 uwsgi==2.0.15             # via -r requirements.in
