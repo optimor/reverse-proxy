@@ -17,6 +17,7 @@ RUN apt-get clean && \
         python3-setuptools \
         python3-virtualenv && \
     pip3 install --upgrade pip && \
+    pip3 install pip-tools wheel && \
     apt-get install --no-install-recommends -y \
       libxml2-dev \
       libxslt1-dev \
@@ -52,7 +53,6 @@ RUN python3 -m virtualenv --python=python3 $VIRTUAL_ENV_DIR && \
     sed -i "/^ENV_PATH/c\ENV_PATH      PATH=$PATH" /etc/login.defs && \
     # Replace the environment PATH for new su implementation (Ubuntu 20 up)
     sed -i "/^PATH/c\EPATH=\"$PATH\"" /etc/environment
-RUN pip3 install pip-tools wheel
 
 COPY ./requirements.txt $BACKEND_DIR/requirements.txt
 RUN pip-sync $BACKEND_DIR/requirements.txt
