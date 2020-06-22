@@ -16,7 +16,7 @@ if [[ "$ENVIRONMENT" = "production" ]]; then
   [[ -e /etc/nginx/nginx.conf ]] && rm /etc/nginx/nginx.conf
   cp $BACKEND_DIR/nginx.conf /etc/nginx/nginx.conf
 
-  [[ -e /etc/nginx/sites-available/default ]] && rm /etc/nginx/sites-available/default
+  [[ -e /etc/nginx/sites-enabled/default ]] && rm /etc/nginx/sites-enabled/default
   cp $BACKEND_DIR/nginx_reverse_proxy /etc/nginx/sites-available/
   ln -sf /etc/nginx/sites-available/nginx_reverse_proxy /etc/nginx/sites-enabled/nginx_reverse_proxy
   service nginx restart
