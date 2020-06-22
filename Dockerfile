@@ -55,7 +55,7 @@ RUN python3 -m virtualenv --python=python3 $VIRTUAL_ENV_DIR && \
     sed -i "/^PATH/c\EPATH=\"$PATH\"" /etc/environment
 
 COPY ./requirements.txt $BACKEND_DIR/requirements.txt
-RUN pip-sync $BACKEND_DIR/requirements.txt
+RUN pip3 install -r $BACKEND_DIR/requirements.txt
 
 COPY ./reverse_proxy $BACKEND_DIR
 RUN /bin/bash -c "chown -R django:django $BACKEND_DIR"
