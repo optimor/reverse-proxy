@@ -1,6 +1,6 @@
 server-dev:
   build: .
-  dockerfile: ./Dockerfile
+  dockerfile: dockerfiles/Dockerfile
   hostname: docker-container
   user: root
   volumes:
@@ -14,7 +14,7 @@ server-dev:
 
 server-nginx:
   build: .
-  dockerfile: ./Dockerfile
+  dockerfile: dockerfiles/Dockerfile
   hostname: docker-container
   user: root
   ports:
@@ -34,6 +34,27 @@ server-nginx:
     EMAIL_PORT: 587
     EMAIL_USE_TLS: 'true'
 
+lint:
+  build: .
+  dockerfile: dockerfiles/Dockerfile_test
+  hostname: lint
+  volumes:
+    - .:/opt/optimor/src
+  user: root
+  command: >
+    bash -c "echo 'RUNNING BLACK' &&
+              black --check . --exclude=venv"
+
+lint-fix:
+  build: .
+  dockerfile: dockerfiles/Dockerfile_test
+  hostname: lint-fix
+  volumes:
+    - .:/opt/optimor/src
+  user: root
+  command: >
+    bash -c "echo 'RUNNING BLACK' &&
+              black . --exclude=venv"
 
 # =============================================================================
 # ---------------------------- PIP-COMPILE SERVICES ---------------------------
@@ -49,12 +70,14 @@ server-nginx:
 # -----------------------------------------------------------------------------
 pip-compile:
   build: .
+  dockerfile: dockerfiles/Dockerfile
   volumes:
     - .:/src
   entrypoint: []
   user: django
   command: >
-    bash --login -c "pip-compile --output-file requirements.txt requirements.in"
+    bash --login -c "pip-compile --output-file requirements.txt requirements.in &&
+                     pip-compile --output-file requirements_test.txt requirements_test.in"
 # -----------------------------------------------------------------------------
 # 'pip-compile-upgrade-requirements' service is used to upgrade packages
 # located in requirements '.in' files. Note that when upgrading package all
@@ -67,5 +90,5 @@ pip-compile-upgrade-requirements:
   extends:
     service: pip-compile
   command: >
-    bash --login -c "
-            pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file requirements.txt requirements.in"
+    bash --login -c " pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file requirements.txt requirements.in &&
+                      pip-compile --upgrade-package $UPGRADE_PACKAGE --output-file requirements_test.txt requirements_test.in"
