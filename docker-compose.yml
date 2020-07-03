@@ -43,7 +43,9 @@ lint:
   user: root
   command: >
     bash -c "echo 'RUNNING BLACK' &&
-              black --check . --exclude=venv"
+              black --check . --exclude=venv &&
+              echo 'RUNNING PYCODESTYLE' &&
+              pycodestyle . --config pycodestyle.cfg"
 
 lint-fix:
   build: .
