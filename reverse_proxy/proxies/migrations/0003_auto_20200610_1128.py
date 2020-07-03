@@ -6,16 +6,10 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('proxies', '0002_auto_20170727_1527'),
+        ("proxies", "0002_auto_20170727_1527"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='proxysite',
-            name='request_headers',
-        ),
-        migrations.RemoveField(
-            model_name='proxysite',
-            name='rewrite',
-        ),
+        migrations.RemoveField(model_name="proxysite", name="request_headers",),
+        migrations.RemoveField(model_name="proxysite", name="rewrite",),
     ]
