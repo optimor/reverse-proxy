@@ -77,7 +77,8 @@ class Migration(migrations.Migration):
                 (
                     "upstream",
                     models.CharField(
-                        help_text="The URL of the proxied server. Requests will be made to this URL with path appended to it.",
+                        help_text="The URL of the proxied server. Requests will be "
+                        "made to this URL with path appended to it.",
                         max_length=200,
                     ),
                 ),
@@ -85,14 +86,17 @@ class Migration(migrations.Migration):
                     "add_remote_user",
                     models.BooleanField(
                         default=False,
-                        help_text="Whether to add the REMOTE_USER to the request in case of an authenticated user.",
+                        help_text="Whether to add the REMOTE_USER to the request in "
+                        "case of an authenticated user.",
                     ),
                 ),
                 (
                     "default_content_type",
                     models.CharField(
                         default="application/octet-stream",
-                        help_text="The Content-Type that will be added to the response in case the upstream server doesn't send it and if mimetypes.guess_type is not able to guess.",
+                        help_text="The Content-Type that will be added to the response "
+                        "in case the upstream server doesn't send it and if "
+                        "mimetypes.guess_type is not able to guess.",
                         max_length=200,
                     ),
                 ),
@@ -106,7 +110,12 @@ class Migration(migrations.Migration):
                     "rewrite",
                     models.TextField(
                         blank=True,
-                        help_text="A list of tuples in the style (from, to) where from must by a valid regex expression and to a valid URL. If request.get_full_path matches the from expression the request will be redirected to to with an status code 302. Matches groups can be used to pass parts from the from URL to the to URL using numbered groups.",
+                        help_text="A list of tuples in the style (from, to) where from "
+                        "must by a valid regex expression and to a valid URL. If "
+                        "request.get_full_path matches the from expression the request "
+                        "will be redirected to to with an status code 302. Matches "
+                        "groups can be used to pass parts from the from URL to the to "
+                        "URL using numbered groups.",
                         null=True,
                     ),
                 ),
@@ -114,12 +123,13 @@ class Migration(migrations.Migration):
                     "request_headers",
                     models.TextField(
                         blank=True,
-                        help_text="A list of tuples in the style (key, value) where key must by a valid HEADER and key a valid header value.",
+                        help_text="A list of tuples in the style (key, value) where key"
+                        " must by a valid HEADER and key a valid header value.",
                         null=True,
                     ),
                 ),
             ],
-            options={"verbose_name_plural": "proxy sites",},
+            options={"verbose_name_plural": "proxy sites"},
         ),
         migrations.AddField(
             model_name="proxyrewrite",

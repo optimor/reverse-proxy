@@ -37,7 +37,8 @@ class Migration(migrations.Migration):
             name="thumbnail",
             field=models.ImageField(
                 blank=True,
-                help_text="Proxied site thumbnail to display in dashboard. Thumbnail should have square dimensions.",
+                help_text="Proxied site thumbnail to display in dashboard. Thumbnail "
+                "should have square dimensions.",
                 null=True,
                 upload_to="%Y%m%d%H%M",
             ),

@@ -101,11 +101,14 @@ LOGIN_URL = "/proxy-dashboard/login/"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 django_log_path = os.environ.get("LOG_FILE_DJANGO", "/var/log/app_django.log")
@@ -120,9 +123,7 @@ LOGGING = {
             "filename": django_log_path,
         },
     },
-    "loggers": {
-        "django": {"handlers": ["file"], "level": "DEBUG", "propagate": True,},
-    },
+    "loggers": {"django": {"handlers": ["file"], "level": "DEBUG", "propagate": True}},
 }
 
 

@@ -13,8 +13,8 @@ class ProxyRewriteInline(CompactInline):
             None,
             {
                 "fields": ("from_regex", "to_regex"),
-                "description": "A list of tuples in the style (from, to) where from must by "
-                "a valid regex expression and to a valid URL. If "
+                "description": "A list of tuples in the style (from, to) where from "
+                "must by a valid regex expression and to a valid URL. If "
                 "request.get_full_path matches the from expression the "
                 "request will be redirected to to with an status code 302. "
                 "Matches groups can be used to pass parts from the from "
@@ -32,8 +32,8 @@ class ProxyHeaderInline(CompactInline):
             None,
             {
                 "fields": ("header_name", "header_value"),
-                "description": "A list of tuples in the style (key, value) where key must "
-                "by a valid HEADER and key a valid header value.",
+                "description": "A list of tuples in the style (key, value) where key "
+                "must by a valid HEADER and key a valid header value.",
             },
         ),
     )
@@ -51,13 +51,13 @@ class ProxySiteAdmin(admin.ModelAdmin):
         "retries",
     )
     fieldsets = (
-        (None, {"fields": ("name", "upstream", "thumbnail"),}),
+        (None, {"fields": ("name", "upstream", "thumbnail")}),
         (
             "Subdomain",
             {
                 "fields": ("subdomain_name", "subdomain_full_url"),
-                "description": "Specify those to setup proxy that redirects based on the "
-                "subdomain of the current URL",
+                "description": "Specify those to setup proxy that redirects based on "
+                "the subdomain of the current URL",
             },
         ),
         ("Extra", {"fields": ("add_remote_user", "default_content_type", "retries")}),
