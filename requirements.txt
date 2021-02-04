@@ -4,11 +4,29 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-django-jet==1.0.8         # via -r requirements.in
-django-revproxy==0.10.0   # via -r requirements.in
-django==2.2.13            # via -r requirements.in, django-jet, django-revproxy
-pillow==7.2.0             # via -r requirements.in
-pytz==2020.1              # via django
-sqlparse==0.3.1           # via django
-urllib3==1.24.2           # via django-revproxy
-uwsgi==2.0.15             # via -r requirements.in
+django-jet==1.0.8
+    # via -r requirements.in
+django-otp==1.0.2
+    # via -r requirements.in
+django-revproxy==0.10.0
+    # via -r requirements.in
+django==2.2.13
+    # via
+    #   -r requirements.in
+    #   django-jet
+    #   django-otp
+    #   django-revproxy
+pillow==7.2.0
+    # via -r requirements.in
+pytz==2020.1
+    # via django
+qrcode==6.1
+    # via -r requirements.in
+six==1.15.0
+    # via qrcode
+sqlparse==0.3.1
+    # via django
+urllib3==1.24.2
+    # via django-revproxy
+uwsgi==2.0.15
+    # via -r requirements.in

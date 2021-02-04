@@ -21,6 +21,10 @@ import jet
 
 from proxies import views as proxy_views
 
+from django_otp.admin import OTPAdminSite
+
+admin.site.__class__ = OTPAdminSite
+
 
 # Text to put at the end of each page's <title>.
 admin.site.site_header = "Monitoring proxy"

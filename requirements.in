@@ -1,5 +1,7 @@
 django
 django-jet
+django-otp
 django-revproxy
 Pillow
+qrcode
 uwsgi

@@ -34,6 +34,8 @@ SESSION_COOKIE_DOMAIN = os.environ.get("SESSION_COOKIE_DOMAIN", None)
 SESSION_COOKIE_NAME = os.environ.get("SESSION_COOKIE_NAME", "sessionid")
 SESSION_COOKIE_SECURE = bool(os.environ.get("SESSION_COOKIE_SECURE", False))
 
+OTP_TOTP_ISSUER = "Billmonitor"
+
 
 # Application definition
 
@@ -47,6 +49,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3rd party django packages
+    "django_otp",
+    "django_otp.plugins.otp_totp",
+    "django_otp.plugins.otp_static",
     "revproxy",
     # Custom apps from project
     "reverse_proxy",
@@ -59,6 +64,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
