@@ -10,7 +10,7 @@ django-otp==1.0.2
     # via -r requirements.in
 django-revproxy==0.10.0
     # via -r requirements.in
-django==2.2.13
+django==2.2.24
     # via
     #   -r requirements.in
     #   django-jet
