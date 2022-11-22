@@ -16,7 +16,7 @@ django-otp==1.0.2
     # via -r requirements.in
 django-revproxy==0.10.0
     # via -r requirements.in
-pillow==8.3.2
+pillow==9.3.0
     # via -r requirements.in
 pytz==2020.1
     # via django
